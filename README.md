@@ -13,7 +13,7 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/ваш-логин/deribit-price-tracker.git
+   git clone https://github.com/DLobyrev/deribit-price-tracker.git
    cd deribit-price-tracker
    
 2. Установите зависимости:
