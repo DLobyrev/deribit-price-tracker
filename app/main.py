@@ -7,12 +7,16 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import List
 from . import models, database
+from contextlib import asynccontextmanager
 
-# Создаём таблицы при запуске (в продакшене — миграции)
-models.Base.metadata.create_all(bind=database.engine)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Создаём таблицы при старте
+    models.Base.metadata.create_all(bind=database.engine)
+    yield
+    # Здесь можно закрыть соединения (если нужно)
 
-app = FastAPI(title="Deribit Price Tracker API")
-
+app = FastAPI(title="Deribit Price Tracker API", lifespan=lifespan)
 
 @app.get("/prices/", response_model=List[dict])
 def get_prices_by_ticker(
